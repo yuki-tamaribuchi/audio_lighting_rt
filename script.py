@@ -48,7 +48,10 @@ chroma_rgb=np.array([
             [255,165,0],
 
             #B,シ,Copper
-            [184,115,51]
+            [184,115,51],
+
+            #None,WHite
+            [255,255,255]
         ])
 
 def convert_rgb_to_xy(data):
@@ -73,7 +76,7 @@ def audio_callback(indata, frames, time, status):
     i=0
     if i%10==0:
         chroma_stft=librosa.feature.chroma_stft(y=indata[:,0],sr=44100)
-        left_xy=convert_rgb_to_xy(chroma_rgb[chroma_stft.real.mean(axis=1).argmax()])
+        left_xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
         cmd={
             'xy':left_xy,
             'transitiontime':0,
