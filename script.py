@@ -75,7 +75,8 @@ def audio_callback(indata, frames, time, status):
         print(status, file=sys.stderr)
     i=0
     if i%10==0:
-        chroma_stft=librosa.feature.chroma_stft(y=indata[:,0],sr=44100)
+        harmonics,percussive=librosa.effects.hpss(indata[:,0])
+        chroma_stft=librosa.feature.chroma_stft(y=harmonics,sr=44100)
         left_xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
         cmd={
             'xy':left_xy,
