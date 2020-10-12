@@ -95,6 +95,12 @@ class RtLighting():
     def __right_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
 
+        processes={
+            Process(target=self.__right_execute,args=(harmonics,))
+        }
+        for p in processes:
+            p.start()
+
     def __audio_callback(self,indata, frames, time, status):
         if status:
             print(status, file=sys.stderr)
