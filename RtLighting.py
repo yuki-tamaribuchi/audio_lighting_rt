@@ -1,4 +1,5 @@
 import sys
+import os
 import numpy as np
 import sounddevice as sd
 import librosa
@@ -9,6 +10,7 @@ from multiprocessing import Process
 class RtLighting():
     
     def __init__(self,ip_addr,inputdevice):
+        os.nice(-20)
         self.__b=Bridge(ip_addr)
         sd.default.device=inputdevice,None
 
