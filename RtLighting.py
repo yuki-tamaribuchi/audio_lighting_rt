@@ -13,7 +13,7 @@ class RtLighting():
         sd.default.device=inputdevice,None
 
 
-    def __color(self,y):
+    def __color(self,y,light):
 
         chroma_rgb=np.array([
             #Kari Ziets' research 1931
