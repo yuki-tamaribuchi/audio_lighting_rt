@@ -8,5 +8,5 @@ from phue import Bridge
 class RtLighting():
     
     def __init__(self,ip_addr,inputdevice):
-        b=Bridge(ip_addr)
+        self.__b=Bridge(ip_addr)
         sd.default.device=inputdevice
