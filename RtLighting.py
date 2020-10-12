@@ -91,7 +91,7 @@ class RtLighting():
         if self.__average__max<average_indata:
             self.__average__max=average_indata
         cmd={
-            'bri':int(average_indata*255),
+            'bri':int((average_indata/self.__average__max)*255),
             'transitiontime':0
         }
         self.__b.set_light(light_no,cmd)
