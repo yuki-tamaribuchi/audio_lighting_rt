@@ -86,7 +86,7 @@ class RtLighting():
 
 
     def __brightness(self,indata,light_no):
-        average_indata=np.average(np.absolute(normalized_indata))
+        average_indata=np.average(np.absolute(indata))
         cmd={
             'bri':int(average_indata*255),
             'transitiontime':0
