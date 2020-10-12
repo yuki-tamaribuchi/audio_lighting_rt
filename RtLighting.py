@@ -6,4 +6,7 @@ import time
 from phue import Bridge
 
 class RtLighting():
-    pass
+    
+    def __init__(self,ip_addr,inputdevice):
+        b=Bridge(ip_addr)
+        sd.default.device=inputdevice
