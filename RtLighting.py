@@ -17,7 +17,7 @@ class RtLighting():
     def brightness(self):
         pass
 
-    def audio_callback(self):
+    def audio_callback(self,indata, frames, time, status):
         if status:
             print(status, file=sys.stderr)
 
