@@ -11,13 +11,13 @@ class RtLighting():
         self.__b=Bridge(ip_addr)
         sd.default.device=inputdevice
 
-    def color(self):
+    def __color(self):
         pass
 
-    def brightness(self):
+    def __brightness(self):
         pass
 
-    def audio_callback(self,indata, frames, time, status):
+    def __audio_callback(self,indata, frames, time, status):
         if status:
             print(status, file=sys.stderr)
 
