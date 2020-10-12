@@ -13,8 +13,8 @@ class RtLighting():
         sd.default.device=inputdevice,None
 
 
-    def __color(self):
-        pass
+    def __color(self,y):
+        chroma_srft=librosa.feature.chroma_stft(y=y,sr=44100)
 
     def __brightness(self):
         pass
