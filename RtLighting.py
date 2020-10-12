@@ -89,7 +89,7 @@ class RtLighting():
         normalized_indata=librosa.util.normalize(S=indata)
         average_indata=np.average(np.absolute(normalized_indata))
         cmd={
-            'bri':average_indata*255,
+            'bri':int(average_indata*255),
             'transitiontime':0
         }
         self.__b.set_light(light_no,cmd)
@@ -123,7 +123,7 @@ class RtLighting():
             print(status, file=sys.stderr)
         processes=[
             Process(target=self.__left_execute,args=(indata[:,0],)),
-            Process(target=self.__right_execute,args=(indata[:,1],))
+            #Process(target=self.__right_execute,args=(indata[:,1],))
         ]
         for p in processes:
             p.start()
