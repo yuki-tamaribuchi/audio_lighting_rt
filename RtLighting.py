@@ -90,16 +90,18 @@ class RtLighting():
 
         for p in processes:
             p.start()
+            p.join(timeout=0.05)
 
 
     def __right_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
 
         processes={
-            Process(target=self.__right_execute,args=(harmonics,))
+            Process(target=self.__color,args=(harmonics,))
         }
         for p in processes:
             p.start()
+            p.join(timeout=0.08)
 
     def __audio_callback(self,indata, frames, time, status):
         if status:
@@ -110,6 +112,8 @@ class RtLighting():
         ]
         for p in processes:
             p.start()
+            p.terminate
+            p.join(timeout=0.1)
 
 
 
