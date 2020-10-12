@@ -85,7 +85,7 @@ class RtLighting():
         self.__b.set_light(light_no,cmd)
 
 
-    def __brightness(self):
+    def __brightness(self,indata,light_no):
         pass
 
     def __left_execute(self,indata):
