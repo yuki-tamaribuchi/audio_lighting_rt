@@ -13,6 +13,7 @@ class RtLighting():
         sd.default.device=inputdevice,None
         self.__left_light_no=left_light_no
         self.__right_light_no=right_light_no
+        self.__average__max=0.0
 
 
     def __color(self,y,light_no):
@@ -87,6 +88,7 @@ class RtLighting():
 
     def __brightness(self,indata,light_no):
         average_indata=np.average(np.absolute(indata))
+        
         cmd={
             'bri':int(average_indata*255),
             'transitiontime':0
