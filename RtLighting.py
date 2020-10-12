@@ -17,10 +17,10 @@ class RtLighting():
     def __brightness(self):
         pass
 
-    def __left_execute(self):
+    def __left_execute(self,indata):
         pass
 
-    def __right_execute(self):
+    def __right_execute(self,indata):
         pass
 
     def __audio_callback(self,indata, frames, time, status):
