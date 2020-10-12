@@ -133,4 +133,4 @@ class RtLighting():
             callback=self.__audio_callback
         )
         stream.start()
-        time.sleep(10)
+        time.sleep(120)
