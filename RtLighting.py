@@ -10,7 +10,7 @@ class RtLighting():
     
     def __init__(self,ip_addr,inputdevice):
         self.__b=Bridge(ip_addr)
-        sd.default.device=inputdevice
+        sd.default.device=inputdevice,None
 
     def __color(self):
         pass
@@ -27,6 +27,9 @@ class RtLighting():
     def __audio_callback(self,indata, frames, time, status):
         if status:
             print(status, file=sys.stderr)
+        processes=[
+            Process(target=self.__left_execute,args=)
+        ]
 
 
 
