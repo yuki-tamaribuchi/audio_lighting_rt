@@ -18,7 +18,12 @@ class RtLighting():
         pass
 
     def audio_callback(self):
-        pass
+        if status:
+            print(status, file=sys.stderr)
+
+        i=0
+        if i%10==0:
+            harmonics,percussive=librosa.effects.hpss(indata[:,0])
 
     def start_stream(self):
         pass
