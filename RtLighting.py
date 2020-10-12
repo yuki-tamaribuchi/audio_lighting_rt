@@ -86,7 +86,6 @@ class RtLighting():
 
 
     def __brightness(self,indata,light_no):
-        normalized_indata=librosa.util.normalize(S=indata)
         average_indata=np.average(np.absolute(normalized_indata))
         cmd={
             'bri':int(average_indata*255),
