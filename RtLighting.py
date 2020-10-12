@@ -73,12 +73,12 @@ class RtLighting():
 
             return x,y
 
-        chroma_srft=librosa.feature.chroma_stft(y=y,sr=44100)
+        chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100)
         xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
 
         return xy
 
-        
+
     def __brightness(self):
         pass
 
