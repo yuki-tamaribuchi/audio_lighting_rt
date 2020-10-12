@@ -94,6 +94,7 @@ class RtLighting():
 
         processes=[
             Process(target=self.__color,args=(harmonics,self.__left_light_no)),
+            Process(target=self.__brightness,args=(percussive,self.__left_light_no))
         ]
 
         for p in processes:
@@ -105,7 +106,8 @@ class RtLighting():
         harmonics,percussive=librosa.effects.hpss(indata)
 
         processes={
-            Process(target=self.__color,args=(harmonics,self.__right_light_no))
+            Process(target=self.__color,args=(harmonics,self.__right_light_no)),
+            Process(target=self.__brightness,args=(harmonics,self.__right_light_no))
         }
         for p in processes:
             p.start()
