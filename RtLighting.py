@@ -18,17 +18,15 @@ class RtLighting():
         pass
 
     def __left_execute(self,indata):
-        pass
+        harmonics_left,percussive_left=librosa.effects.hpss(indata)
 
     def __right_execute(self,indata):
-        pass
+        harmonics_right,percussive_right=librosa.effects.hpss(indata)
 
     def __audio_callback(self,indata, frames, time, status):
         if status:
             print(status, file=sys.stderr)
 
-        harmonics_left,percussive_left=librosa.effects.hpss(indata[:,0])
-        harmonics_right,percussive_right=librosa.effects.hpss(indata[:,1])
 
 
 
