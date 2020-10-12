@@ -75,7 +75,6 @@ class RtLighting():
 
         chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100)
         xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
-
         return xy
 
 
@@ -84,6 +83,14 @@ class RtLighting():
 
     def __left_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
+
+        processes=[
+            Process(target=self.__color,args=(harmonics,)),
+        ]
+
+        for p in processes:
+            p.start()
+
 
     def __right_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
