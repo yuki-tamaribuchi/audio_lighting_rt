@@ -21,7 +21,9 @@ class RtLighting():
         if status:
             print(status, file=sys.stderr)
 
-        harmonics,percussive=librosa.effects.hpss(indata[:,0])
+        harmonics_left,percussive_left=librosa.effects.hpss(indata[:,0])
+        harmonics_right,percussive_right=librosa.effects.hpss(indata[:,1])
+
 
 
 
