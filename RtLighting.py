@@ -86,7 +86,8 @@ class RtLighting():
 
 
     def __brightness(self,indata,light_no):
-        pass
+        normalized_indata=librosa.util.normalize(S=indata)
+        print(normalized_indata)
 
     def __left_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
