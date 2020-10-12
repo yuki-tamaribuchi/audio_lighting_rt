@@ -12,6 +12,7 @@ class RtLighting():
         self.__b=Bridge(ip_addr)
         sd.default.device=inputdevice,None
 
+
     def __color(self):
         pass
 
@@ -28,12 +29,21 @@ class RtLighting():
         if status:
             print(status, file=sys.stderr)
         processes=[
-            Process(target=self.__left_execute,args=)
+            Process(target=self.__left_execute,args=(indata[:,0],)),
+            Process(target=self.__right_execute,args=(indata[:,1],))
         ]
+        for p in processes:
+            p.start()
 
 
 
 
 
     def start_stream(self):
-        pass
+        stream=sd.InputStream(
+            samplerate=44100,
+            blocksize=4410,
+            callback=self.__audio_callback
+        )
+        stream.start()
+        time.sleep(10)
