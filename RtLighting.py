@@ -126,11 +126,11 @@ class RtLighting():
 
 
 
-    def start_stream(self):
+    def start_stream(self,sleeptime=10):
         stream=sd.InputStream(
             samplerate=44100,
             blocksize=4410,
             callback=self.__audio_callback
         )
         stream.start()
-        time.sleep(120)
+        time.sleep(sleeptime)
