@@ -8,12 +8,14 @@ from multiprocessing import Process
 
 class RtLighting():
     
-    def __init__(self,ip_addr,inputdevice):
+    def __init__(self,ip_addr,inputdevice,left_light_no=None,right_light_no=None):
         self.__b=Bridge(ip_addr)
         sd.default.device=inputdevice,None
+        self.__left_light_no=left_light_no
+        self.__right_light_no=right_light_no
 
 
-    def __color(self,y,light):
+    def __color(self,y,light_no):
 
         chroma_rgb=np.array([
             #Kari Ziets' research 1931
@@ -75,7 +77,12 @@ class RtLighting():
 
         chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100)
         xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
-        return xy
+        
+        cmd={
+            'xy':xy,
+            'transitiontime':0,
+        }
+        self.__b.set_light(light_no,cmd)
 
 
     def __brightness(self):
@@ -97,7 +104,7 @@ class RtLighting():
         harmonics,percussive=librosa.effects.hpss(indata)
 
         processes={
-            Process(target=self.__color,args=(harmonics,))
+            Process(target=self.__color,args=(harmonics,self.__left_light_no))
         }
         for p in processes:
             p.start()
