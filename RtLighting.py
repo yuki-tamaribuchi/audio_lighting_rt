@@ -99,7 +99,7 @@ class RtLighting():
 
         processes=[
             Process(target=self.__color,args=(harmonics,self.__left_light_no)),
-            Process(target=self.__brightness,args=(percussive,self.__left_light_no))
+            #Process(target=self.__brightness,args=(percussive,self.__left_light_no))
         ]
 
         for p in processes:
