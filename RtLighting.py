@@ -102,8 +102,9 @@ class RtLighting():
     def __left_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
 
-
-
+        self.__color(y=harmonics,light_no=self.__left_light_no)
+        self.__brightness(indata=indata,light_no=self.__left_light_no)
+        
         '''
         processes=[
             Process(target=self.__color,args=(harmonics,self.__left_light_no)),
