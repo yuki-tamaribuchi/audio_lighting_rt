@@ -79,7 +79,7 @@ class RtLighting():
 
             return x,y
 
-        chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100)
+        chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100,n_fft=N_FFT_SIZE,hop_length=HOP_LENGTH)
         xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
         
         cmd={
