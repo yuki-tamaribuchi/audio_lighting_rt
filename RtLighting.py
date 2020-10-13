@@ -13,6 +13,8 @@ class RtLighting():
         sd.default.device=inputdevice,None
         self.__left_light_no=left_light_no
         self.__right_light_no=right_light_no
+        self.__left_ave_max=0.0
+        self.__right_ave_max=0.0
 
 
     def __color(self,y,light_no):
