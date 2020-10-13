@@ -18,6 +18,9 @@ class RtLighting():
 
     def __color(self,y,light_no):
 
+        N_FFT_SIZE=4096
+        HOP_LENGTH=1048
+
         chroma_rgb=np.array([
             #Kari Ziets' research 1931
             #Color Name to RGB Reference -> https://web.njit.edu/~walsh/rgb.html
