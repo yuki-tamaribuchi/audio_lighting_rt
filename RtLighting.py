@@ -102,26 +102,28 @@ class RtLighting():
     def __left_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
 
+        '''
         self.__color(y=harmonics,light_no=self.__left_light_no)
         self.__brightness(indata=indata,light_no=self.__left_light_no)
 
         '''
         processes=[
             Process(target=self.__color,args=(harmonics,self.__left_light_no)),
-            #Process(target=self.__brightness,args=(percussive,self.__left_light_no))
+            Process(target=self.__brightness,args=(percussive,self.__left_light_no))
         ]
 
         for p in processes:
             p.start()
             p.join(timeout=0.05)
-        '''
+        
 
 
     def __right_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
+
+        '''
         self.__color(y=harmonics,light_no=self.__right_light_no)
         self.__brightness(indata=percussive,light_no=self.__right_light_no)
-
         '''
         processes={
             Process(target=self.__color,args=(harmonics,self.__right_light_no)),
@@ -129,8 +131,7 @@ class RtLighting():
         }
         for p in processes:
             p.start()
-            p.join(timeout=0.08)
-        '''
+            p.join(timeout=0.05)
 
     def __audio_callback(self,indata, frames, time, status):
         if status:
@@ -141,8 +142,7 @@ class RtLighting():
         ]
         for p in processes:
             p.start()
-            p.terminate
-            p.join(timeout=0.1)
+            p.join(timeout=0.08)
 
 
 
