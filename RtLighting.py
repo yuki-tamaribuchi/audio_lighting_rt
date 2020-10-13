@@ -13,9 +13,13 @@ class RtLighting():
         sd.default.device=inputdevice,None
         self.__left_light_no=left_light_no
         self.__right_light_no=right_light_no
+        self.__average__max=0.0
 
 
     def __color(self,y,light_no):
+
+        N_FFT_SIZE=4096
+        HOP_LENGTH=1048
 
         chroma_rgb=np.array([
             #Kari Ziets' research 1931
@@ -75,7 +79,7 @@ class RtLighting():
 
             return x,y
 
-        chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100)
+        chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100,n_fft=N_FFT_SIZE,hop_length=HOP_LENGTH)
         xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
         
         cmd={
@@ -86,10 +90,11 @@ class RtLighting():
 
 
     def __brightness(self,indata,light_no):
-        normalized_indata=librosa.util.normalize(S=indata)
-        average_indata=np.average(np.absolute(normalized_indata))
+        average_indata=np.average(np.absolute(indata))
+        if self.__average__max<average_indata:
+            self.__average__max=average_indata
         cmd={
-            'bri':int(average_indata*255),
+            'bri':int((average_indata/self.__average__max)*255),
             'transitiontime':0
         }
         self.__b.set_light(light_no,cmd)
