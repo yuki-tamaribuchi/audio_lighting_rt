@@ -13,7 +13,6 @@ class RtLighting():
         sd.default.device=inputdevice,None
         self.__left_light_no=left_light_no
         self.__right_light_no=right_light_no
-        self.__average__max=0.0
 
 
     def __color(self,y,light_no):
@@ -89,15 +88,9 @@ class RtLighting():
         self.__b.set_light(light_no,cmd)
 
 
-    def __brightness(self,indata,light_no):
+    def __brightness(self,indata,l_or_r,light_no):
         average_indata=np.average(np.absolute(indata))
-        if self.__average__max<average_indata:
-            self.__average__max=average_indata
-        cmd={
-            'bri':int((average_indata/self.__average__max)*255),
-            'transitiontime':0
-        }
-        self.__b.set_light(light_no,cmd)
+        
 
     def __left_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
