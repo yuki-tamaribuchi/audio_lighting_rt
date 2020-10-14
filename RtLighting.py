@@ -114,7 +114,6 @@ class RtLighting():
 
         for p in processes:
             p.start()
-            p.join(timeout=0.05)
         
 
 
@@ -131,7 +130,6 @@ class RtLighting():
         }
         for p in processes:
             p.start()
-            p.join(timeout=0.05)
 
     def __audio_callback(self,indata, frames, time, status):
         if status:
@@ -142,7 +140,6 @@ class RtLighting():
         ]
         for p in processes:
             p.start()
-            p.join(timeout=0.08)
 
 
 
