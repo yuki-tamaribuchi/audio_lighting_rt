@@ -89,9 +89,15 @@ class RtLighting():
 
 
     def __brightness(self,indata,light_no):
-        average_indata=np.average(np.absolute(indata))
-        
-        
+        ave=int((np.average(np.absolute(indata))/0.01)*255)
+        bri=255 if 255<ave else ave
+        cmd={
+            'bri':bri,
+            'transitiontime':0
+        }
+        print(cmd)
+        self.__b.set_light(light_no,cmd)
+
 
     def __left_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
