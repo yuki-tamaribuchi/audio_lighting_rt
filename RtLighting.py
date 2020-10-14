@@ -90,8 +90,25 @@ class RtLighting():
         self.__b.set_light(light_no,cmd)
 
 
-    def __brightness(self,indata,l_or_r,light_no):
+    def __brightness(self,indata,position,light_no):
         average_indata=np.average(np.absolute(indata))
+        if position=='left':
+            if self.__left_ave_max<average_indata:
+                self.__left_ave_max=average_indata
+                print(self.__left_ave_max)
+            bri=int(np.nan_to_num((average_indata/self.__left_ave_max))*255)
+        elif position=='right':
+            if self.__right_ave_max<average_indata:
+                self.__right_ave_max=average_indata
+                print(self.__right_ave_max)
+            bri=int(np.nan_to_num((average_indata/self.__right_ave_max))*255)
+        cmd={
+            'bri':bri,
+            'transitiontime':0
+        }
+        self.__b.set_light(light_no,cmd)
+
+
         
 
     def __left_execute(self,indata):
@@ -104,7 +121,7 @@ class RtLighting():
         '''
         processes=[
             Process(target=self.__color,args=(harmonics,self.__left_light_no)),
-            Process(target=self.__brightness,args=(percussive,self.__left_light_no))
+            Process(target=self.__brightness,args=(percussive,'left',self.__left_light_no))
         ]
 
         for p in processes:
@@ -122,7 +139,7 @@ class RtLighting():
         '''
         processes={
             Process(target=self.__color,args=(harmonics,self.__right_light_no)),
-            Process(target=self.__brightness,args=(percussive,self.__right_light_no))
+            Process(target=self.__brightness,args=(percussive,'right',self.__right_light_no))
         }
         for p in processes:
             p.start()
