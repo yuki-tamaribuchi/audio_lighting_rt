@@ -88,7 +88,7 @@ class RtLighting():
         self.__b.set_light(light_no,cmd)
 
 
-    def __brightness(self,indata,position,light_no):
+    def __brightness(self,indata,light_no):
         average_indata=np.average(np.absolute(indata))
         
         
@@ -103,7 +103,7 @@ class RtLighting():
         '''
         processes=[
             Process(target=self.__color,args=(harmonics,self.__left_light_no)),
-            Process(target=self.__brightness,args=(percussive,'left',self.__left_light_no))
+            Process(target=self.__brightness,args=(percussive,self.__left_light_no))
         ]
 
         for p in processes:
@@ -121,7 +121,7 @@ class RtLighting():
         '''
         processes={
             Process(target=self.__color,args=(harmonics,self.__right_light_no)),
-            Process(target=self.__brightness,args=(percussive,'right',self.__right_light_no))
+            Process(target=self.__brightness,args=(percussive,self.__right_light_no))
         }
         for p in processes:
             p.start()
