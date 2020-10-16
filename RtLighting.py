@@ -8,8 +8,9 @@ from multiprocessing import Process
 
 class RtLighting():
     
-    def __init__(self,ip_addr,inputdevice,left_light_no=None,right_light_no=None):
+    def __init__(self,ip_addr,mode,inputdevice,left_light_no=None,right_light_no=None):
         self.__b=Bridge(ip_addr)
+        self.__mode=mode
         sd.default.device=inputdevice,None
         self.__left_light_no=left_light_no
         self.__right_light_no=right_light_no
@@ -17,8 +18,7 @@ class RtLighting():
 
     def __color(self,y,light_no):
 
-        N_FFT_SIZE=4096
-        HOP_LENGTH=1048
+        
 
         chroma_rgb=np.array([
             #Kari Ziets' research 1931
@@ -78,9 +78,17 @@ class RtLighting():
 
             return x,y
 
-        chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100,n_fft=N_FFT_SIZE,hop_length=HOP_LENGTH)
-        xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
-        
+        if self.__mode=='stft':
+            N_FFT_SIZE=4096
+            HOP_LENGTH=1048
+
+            chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100,n_fft=N_FFT_SIZE,hop_length=HOP_LENGTH)
+            xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
+        elif self.__mode=='cqt':
+            HOP_LENGTH=4096
+            chroma_cens=librosa.feature.chroma_cens(y=y,sr=44100,hop_length=HOP_LENGTH)
+            xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_cens.real.mean(axis=1),[0.00000000001]).argmax()])
+
         cmd={
             'xy':xy,
             'transitiontime':0,
