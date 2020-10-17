@@ -8,18 +8,19 @@ from multiprocessing import Process
 
 class RtLighting():
     
-    def __init__(self,ip_addr,inputdevice,left_light_no=None,right_light_no=None):
+    def __init__(self,ip_addr,mode,inputdevice,left_light_no=None,right_light_no=None):
         self.__b=Bridge(ip_addr)
+        self.__mode=mode
         sd.default.device=inputdevice,None
         self.__left_light_no=left_light_no
         self.__right_light_no=right_light_no
-        self.__average__max=0.0
 
 
     def __color(self,y,light_no):
 
         N_FFT_SIZE=4096
         HOP_LENGTH=1024
+        
 
         chroma_rgb=np.array([
             #Kari Ziets' research 1931
@@ -79,9 +80,22 @@ class RtLighting():
 
             return x,y
 
-        chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100,n_fft=N_FFT_SIZE,hop_length=HOP_LENGTH)
-        xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
-        
+        if self.__mode=='stft':
+            N_FFT_SIZE=4096
+            HOP_LENGTH=1048
+
+            chroma_stft=librosa.feature.chroma_stft(y=y,sr=44100,n_fft=N_FFT_SIZE,hop_length=HOP_LENGTH)
+            xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
+        elif self.__mode=='cqt':
+            HOP_LENGTH=4096
+            FMIN=130.816
+            N_BINS=84
+            BPO=12
+
+            C=librosa.cqt(y=y,sr=44100,hop_length=HOP_LENGTH,fmin=FMIN,n_bins=N_BINS,bins_per_octave=BPO)
+            chroma_cens=librosa.feature.chroma_cens(C=C,hop_length=HOP_LENGTH)
+            xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_cens.real.mean(axis=1),[0.00000000001]).argmax()])
+
         cmd={
             'xy':xy,
             'transitiontime':0,
@@ -90,38 +104,40 @@ class RtLighting():
 
 
     def __brightness(self,indata,light_no):
-        average_indata=np.average(np.absolute(indata))
-        if self.__average__max<average_indata:
-            self.__average__max=average_indata
+        ave=int((np.average(np.absolute(indata))/0.01)*255)
+        bri=255 if 255<ave else ave
         cmd={
-            'bri':int((average_indata/self.__average__max)*255),
+            'bri':bri,
             'transitiontime':0
         }
+        print(cmd)
         self.__b.set_light(light_no,cmd)
+
 
     def __left_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
 
+        '''
         self.__color(y=harmonics,light_no=self.__left_light_no)
         self.__brightness(indata=indata,light_no=self.__left_light_no)
 
         '''
         processes=[
             Process(target=self.__color,args=(harmonics,self.__left_light_no)),
-            #Process(target=self.__brightness,args=(percussive,self.__left_light_no))
+            Process(target=self.__brightness,args=(percussive,self.__left_light_no))
         ]
 
         for p in processes:
             p.start()
-            p.join(timeout=0.05)
-        '''
+        
 
 
     def __right_execute(self,indata):
         harmonics,percussive=librosa.effects.hpss(indata)
+
+        '''
         self.__color(y=harmonics,light_no=self.__right_light_no)
         self.__brightness(indata=percussive,light_no=self.__right_light_no)
-
         '''
         processes={
             Process(target=self.__color,args=(harmonics,self.__right_light_no)),
@@ -129,8 +145,6 @@ class RtLighting():
         }
         for p in processes:
             p.start()
-            p.join(timeout=0.08)
-        '''
 
     def __audio_callback(self,indata, frames, time, status):
         if status:
@@ -141,8 +155,6 @@ class RtLighting():
         ]
         for p in processes:
             p.start()
-            p.terminate
-            p.join(timeout=0.1)
 
 
 
