@@ -19,7 +19,7 @@ class RtLighting():
     def __color(self,y,light_no):
 
         N_FFT_SIZE=4096
-        HOP_LENGTH=1048
+        HOP_LENGTH=1024
 
         chroma_rgb=np.array([
             #Kari Ziets' research 1931
