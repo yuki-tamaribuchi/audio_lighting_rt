@@ -102,7 +102,8 @@ class RtLighting():
 
 
     def __brightness(self,indata,light_no):
-        ave=int((np.average(np.absolute(indata))/0.01)*255)
+        print(np.average(np.absolute(indata)))
+        ave=int((np.average(np.absolute(indata))/0.0025)*255)
         bri=255 if 255<ave else ave
         cmd={
             'bri':bri,
@@ -163,7 +164,7 @@ class RtLighting():
     def start_stream(self,sleeptime=10):
         stream=sd.InputStream(
             samplerate=44100,
-            blocksize=4410,
+            blocksize=8820,
             callback=self.__audio_callback
         )
         stream.start()
