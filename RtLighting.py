@@ -151,8 +151,8 @@ class RtLighting():
         if status:
             print(status, file=sys.stderr)
         processes=[
-            Process(target=self.__left_execute,args=(indata[:,0],)),
-            #Process(target=self.__right_execute,args=(indata[:,1],))
+            Process(target=self.__left_execute,args=(indata[:8192,0],)),
+            #Process(target=self.__right_execute,args=(indata[:8192,1],))
         ]
         for p in processes:
             p.start()
