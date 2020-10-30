@@ -83,6 +83,9 @@ class RtLighting():
 
             S=librosa.stft(y=y,n_fft=N_FFT_SIZE,hop_length=HOP_LENGTH)
             chroma_stft=librosa.feature.chroma_stft(S=S)
+
+            chroma=librosa.util.normalize(chroma_stft,norm=1,axis=0)
+
             xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
         elif self.__mode=='cqt':
             HOP_LENGTH=4096
