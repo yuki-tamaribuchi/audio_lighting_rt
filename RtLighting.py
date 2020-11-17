@@ -128,15 +128,6 @@ class RtLighting():
 
             xy=scale_xy[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()]
 
-        elif self.__mode=='cqt':
-            HOP_LENGTH=4096
-            FMIN=130.816
-            N_BINS=84
-            BPO=12
-
-            C=librosa.cqt(y=y,sr=44100,hop_length=HOP_LENGTH,fmin=FMIN,n_bins=N_BINS,bins_per_octave=BPO)
-            chroma_cens=librosa.feature.chroma_cens(C=C,hop_length=HOP_LENGTH)
-            xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_cens.real.mean(axis=1),[0.00000000001]).argmax()])
 
         cmd={
             'xy':(xy[0],xy[1]),
