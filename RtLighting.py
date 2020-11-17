@@ -106,7 +106,7 @@ class RtLighting():
             #xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()])
             xy=scale_xy[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()]
 
-        if self.__mode=='stft_normalized':
+        elif self.__mode=='stft_normalized':
             N_FFT_SIZE=4096
             HOP_LENGTH=1048
 
