@@ -10,6 +10,8 @@ pylint = "*"
 numpy = "*"
 sounddevice = "*"
 phue = "*"
+librosa = "==0.6.3"
+numba = "==0.48"
 
 [requires]
 python_version = "3.8"
