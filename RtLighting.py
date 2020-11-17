@@ -125,6 +125,9 @@ class RtLighting():
 
             chroma_stft=librosa.util.normalize(chroma_quant,axis=0)
 
+
+            xy=scale_xy[np.append(chroma_stft.real.mean(axis=1),[0.00000000001]).argmax()]
+
         elif self.__mode=='cqt':
             HOP_LENGTH=4096
             FMIN=130.816
