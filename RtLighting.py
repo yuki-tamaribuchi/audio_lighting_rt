@@ -15,7 +15,7 @@ class RtLighting():
         self.__left_light_no=left_light_no
         self.__right_light_no=right_light_no
 
-
+'''
     def __color(self,y,light_no):
 
 
@@ -76,6 +76,8 @@ class RtLighting():
             y=y/(x+y+z)
 
             return x,y
+'''
+
 
         if self.__mode=='stft':
             N_FFT_SIZE=4096
