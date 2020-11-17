@@ -96,8 +96,8 @@ class RtLighting():
 
 
         if self.__mode=='stft':
-            N_FFT_SIZE=4096
-            HOP_LENGTH=1048
+            N_FFT_SIZE=8192
+            HOP_LENGTH=4096
 
             S=librosa.stft(y=y,n_fft=N_FFT_SIZE,hop_length=HOP_LENGTH)
             chroma_stft=librosa.feature.chroma_stft(S=S)
