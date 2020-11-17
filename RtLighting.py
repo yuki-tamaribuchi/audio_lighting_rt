@@ -15,10 +15,10 @@ class RtLighting():
         self.__left_light_no=left_light_no
         self.__right_light_no=right_light_no
 
-'''
+
     def __color(self,y,light_no):
 
-
+        '''
         chroma_rgb=np.array([
             #Kari Ziets' research 1931
             #Color Name to RGB Reference -> https://web.njit.edu/~walsh/rgb.html
@@ -76,7 +76,8 @@ class RtLighting():
             y=y/(x+y+z)
 
             return x,y
-'''
+        '''
+
         scale_xy=np.array([
                 [0.7350000508904125, 0.24011379399668764],
                 [0.28335697964841183, 0.08666701929705363],
@@ -91,7 +92,7 @@ class RtLighting():
                 [0.5633365915605203, 0.4662702575442089],
                 [0.5418362542487319, 0.28958125285650466],
                 [0.3127301082804434, 0.41590993660321657]
-            ])
+                ])
 
 
         if self.__mode=='stft':
@@ -135,7 +136,7 @@ class RtLighting():
             xy=convert_rgb_to_xy(chroma_rgb[np.append(chroma_cens.real.mean(axis=1),[0.00000000001]).argmax()])
 
         cmd={
-            'xy':xy,
+            'xy':(xy[0],xy[1]),
             'transitiontime':0,
         }
         self.__b.set_light(light_no,cmd)
