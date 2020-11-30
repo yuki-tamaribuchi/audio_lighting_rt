@@ -149,8 +149,7 @@ class RtLighting():
 
 
     def __left_execute(self,indata):
-        margin=(7,3)
-        harmonics,percussive=librosa.effects.hpss(y=indata,margin=margin)
+        harmonics,percussive=librosa.effects.hpss(y=indata)
 
         '''
         self.__color(y=harmonics,light_no=self.__left_light_no)
